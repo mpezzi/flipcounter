@@ -1,0 +1,69 @@
+<?php 
+
+/**
+ * @file
+ * Provides flip counter functionality.
+ */
+
+
+/**
+ * Implements hook_theme().
+ */
+function flipcounter_theme() {
+  return array(
+    'flipcounter' => array(
+      'arguments' => array('value' => NULL, 'options' => array()),
+    ),
+  );
+}
+
+/**
+ * Returns a flipcounter instance and adds required CSS/JavaScript files.
+ *
+ * @return
+ *   An integer based on the number of flip counter instances.
+ */
+function flipcounter_instance() {
+  static $added, $instance;
+
+  // Add CSS/JavaScript files if needed.
+  if ( !isset($added) ) {
+    // Add files from library.
+    drupal_add_css(libraries_get_path('flipcounter') . '/css/counter.css');
+    drupal_add_js(libraries_get_path('flipcounter') . '/js/flipcounter.min.js');
+
+    // Add module css and javascript files.
+    drupal_add_css(drupal_get_path('module', 'flipcounter') . '/flipcounter.css');
+    drupal_add_js(drupal_get_path('module', 'flipcounter') . '/flipcounter.js');
+
+    $added = TRUE;
+  }
+
+  return isset($instance) ? $instance + 1 : 1;
+}
+
+/**
+ * Returns a themed flip counter.
+ *
+ * @param $value
+ *   The initial value to display.
+ * @param $options
+ *   An array of options to set for the javascript plugin
+ *   @see http://cnanney.com/journal/code/apple-style-counter-revisited/
+ *
+ * @return
+ *   A theme flip counter.
+ */
+function theme_flipcounter($value, $options = array()) {
+  $id = 'flipcounter-' . flipcounter_instance();
+
+  // Set default options.
+  $options += array(
+    'value' => $value,
+    'auto' => FALSE,
+  );
+
+  drupal_add_js(array('flipcounter' => array($id => $options)), 'setting');
+
+  return "<div id=\"$id\" class=\"flip-counter clear-block clearfix\"></div>";
+}
