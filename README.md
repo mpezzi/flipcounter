@@ -11,4 +11,4 @@
 - Enable flipcounter module.
 
 ### Usage:
-- Output a counter using theme('flipcounter', 12345);
+- Output a counter using theme('flipcounter', 'id-name', 12345);
