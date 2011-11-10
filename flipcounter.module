@@ -12,19 +12,16 @@
 function flipcounter_theme() {
   return array(
     'flipcounter' => array(
-      'arguments' => array('value' => NULL, 'options' => array()),
+      'arguments' => array('name' => NULL, 'value' => NULL, 'options' => array()),
     ),
   );
 }
 
 /**
- * Returns a flipcounter instance and adds required CSS/JavaScript files.
- *
- * @return
- *   An integer based on the number of flip counter instances.
+ * Adds required CSS/JavaScript files.
  */
-function flipcounter_instance() {
-  static $added, $instance;
+function flipcounter_add() {
+  static $added;
 
   // Add CSS/JavaScript files if needed.
   if ( !isset($added) ) {
@@ -38,8 +35,6 @@ function flipcounter_instance() {
 
     $added = TRUE;
   }
-
-  return isset($instance) ? $instance + 1 : 1;
 }
 
 /**
@@ -54,14 +49,16 @@ function flipcounter_instance() {
  * @return
  *   A theme flip counter.
  */
-function theme_flipcounter($value, $options = array()) {
-  $id = 'flipcounter-' . flipcounter_instance();
+function theme_flipcounter($name, $value, $options = array()) {
+  flipcounter_add();
 
   // Set default options.
   $options += array(
     'value' => $value,
     'auto' => FALSE,
   );
+
+  $id = 'flipcounter-' . $name;
 
   drupal_add_js(array('flipcounter' => array($id => $options)), 'setting');
 
