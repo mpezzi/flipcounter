@@ -13,6 +13,9 @@ function flipcounter_theme() {
   return array(
     'flipcounter' => array(
       'arguments' => array('name' => NULL, 'value' => NULL, 'options' => array()),
+      'template' => 'flipcounter',
+      'path' => drupal_get_path('module', 'flipcounter') . '/theme',
+      'file' => 'theme.inc',
     ),
   );
 }
@@ -35,32 +38,4 @@ function flipcounter_add() {
 
     $added = TRUE;
   }
-}
-
-/**
- * Returns a themed flip counter.
- *
- * @param $value
- *   The initial value to display.
- * @param $options
- *   An array of options to set for the javascript plugin
- *   @see http://cnanney.com/journal/code/apple-style-counter-revisited/
- *
- * @return
- *   A theme flip counter.
- */
-function theme_flipcounter($name, $value, $options = array()) {
-  flipcounter_add();
-
-  // Set default options.
-  $options += array(
-    'value' => $value,
-    'auto' => FALSE,
-  );
-
-  $id = 'flipcounter-' . $name;
-
-  drupal_add_js(array('flipcounter' => array($id => $options)), 'setting');
-
-  return "<div id=\"$id\" class=\"flip-counter clear-block clearfix\"></div>";
 }

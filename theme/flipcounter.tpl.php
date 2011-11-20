@@ -1,0 +1,1 @@
+<div id="<?php print $id ?>" class="flip-counter clearfix"></div>
