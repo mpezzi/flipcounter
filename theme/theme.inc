@@ -10,8 +10,6 @@
  * Provides variables to flipcounter.tpl.php
  */
 function template_preprocess_flipcounter(&$vars) {
-  flipcounter_add();
-
   // Set default options.
   $vars['options'] += array(
     'value' => $vars['value'],
@@ -20,5 +18,5 @@ function template_preprocess_flipcounter(&$vars) {
 
   $vars['id'] = 'flipcounter-' . $vars['name'];
 
-  drupal_add_js(array('flipcounter' => array($vars['id'] => $vars['options'])), 'setting');
+  flipcounter_add($vars['id'], $vars['options']);
 }

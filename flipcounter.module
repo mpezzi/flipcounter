@@ -23,11 +23,11 @@ function flipcounter_theme() {
 /**
  * Adds required CSS/JavaScript files.
  */
-function flipcounter_add() {
+function flipcounter_add($id, $options = array()) {
   static $added;
 
   // Add CSS/JavaScript files if needed.
-  if ( !isset($added) ) {
+  if ( !isset($added['.']) ) {
     // Add files from library.
     drupal_add_css(libraries_get_path('flipcounter') . '/css/counter.css');
     drupal_add_js(libraries_get_path('flipcounter') . '/js/flipcounter.min.js');
@@ -36,6 +36,12 @@ function flipcounter_add() {
     drupal_add_css(drupal_get_path('module', 'flipcounter') . '/flipcounter.css');
     drupal_add_js(drupal_get_path('module', 'flipcounter') . '/flipcounter.js');
 
-    $added = TRUE;
+    $added['.'] = TRUE;
+  }
+
+  if ( !isset($added[$id]) ) {
+    drupal_add_js(array('flipcounter' => array($id => $options)), 'setting');
+
+    $added[$id] = TRUE;
   }
 }
